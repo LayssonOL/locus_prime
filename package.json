@@ -1,0 +1,35 @@
+{
+  "name": "locus_prime_back_test",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "repository": "https://github.com/LayssonOL/locus_prime_back_test.git",
+  "author": "LayssonOL <layssonoliveir4@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "mongoose": "^5.6.7",
+    "sequelize": "^5.12.2",
+    "webpack": "^4.39.0",
+    "webpack-cli": "^3.3.6"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.5",
+    "@types/express": "^4.17.0",
+    "nodemon": "^1.19.1",
+    "sequelize-cli": "^5.5.0",
+    "ts-loader": "^6.0.4",
+    "tsc": "^1.20150623.0",
+    "tslint": "^5.18.0",
+    "typescript": "^3.5.3",
+    "webpack-node-externals": "^1.7.2",
+    "webpack-shell-plugin": "^0.5.0"
+  },
+  "scripts": {
+    "build": "webpack",
+    "start": "nodemon dist/index.js",
+    "start:dev": "NODE_ENV=development webpack",
+    "run:dev": "NODE_ENV=development nodemon dist/index.js"
+  }
+}
