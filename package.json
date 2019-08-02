@@ -30,7 +30,7 @@
   },
   "scripts": {
     "build": "webpack",
-    "start": "nodemon dist/index.js",
+    "start": "nodemon src/index.js",
     "start:dev": "NODE_ENV=development webpack",
     "run:dev": "NODE_ENV=development nodemon dist/index.js"
   }

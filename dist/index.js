@@ -91,43 +91,9 @@
   !*** ./src/index.ts ***!
   \**********************/
 /*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-eval("\nexports.__esModule = true;\nvar express = __webpack_require__(/*! express */ \"express\");\nvar cors = __webpack_require__(/*! cors */ \"cors\");\nvar app = express();\nvar _a = process.env.PORT, PORT = _a === void 0 ? 3000 : _a;\nvar server = __webpack_require__(/*! http */ \"http\").Server(app);\napp.get(\"/\", function (req, res) {\n    res.send({\n        message: \"Hello World!\",\n    });\n});\napp.use(cors());\n// app.use(require(\"./routes\"));\napp.listen(PORT, function () {\n    console.log(\"server started at http://localhost:\" + PORT);\n});\n\n\n//# sourceURL=webpack:///./src/index.ts?");
-
-/***/ }),
-
-/***/ "cors":
-/*!***********************!*\
-  !*** external "cors" ***!
-  \***********************/
-/*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("module.exports = require(\"cors\");\n\n//# sourceURL=webpack:///external_%22cors%22?");
-
-/***/ }),
-
-/***/ "express":
-/*!**************************!*\
-  !*** external "express" ***!
-  \**************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-eval("module.exports = require(\"express\");\n\n//# sourceURL=webpack:///external_%22express%22?");
-
-/***/ }),
-
-/***/ "http":
-/*!***********************!*\
-  !*** external "http" ***!
-  \***********************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-eval("module.exports = require(\"http\");\n\n//# sourceURL=webpack:///external_%22http%22?");
+eval("throw new Error(\"Module build failed (from ./node_modules/ts-loader/index.js):\\nError: ENOENT: no such file or directory, open '/home/laysson/Documents/Personal_Projects/LocusPrime_Test/locus_prime_back_test/src/index.ts'\");\n\n//# sourceURL=webpack:///./src/index.ts?");
 
 /***/ })
 

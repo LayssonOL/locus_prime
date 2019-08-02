@@ -29,6 +29,10 @@ module.exports = {
         allowNull: false,
         type: DataTypes.STRING,
       },
+      user_id: {
+        allowNull: false,
+        type: DataTypes.UUID,
+      },
       createdAt: {
         allowNull: false,
         type: DataTypes.DATE,
