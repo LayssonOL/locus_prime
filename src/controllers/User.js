@@ -1,5 +1,4 @@
-const { User } = require('../models');
-const path = require('path');
+const { User } = require('../models/mysql');
 
 module.exports = {
     async insertUser(req, res){
@@ -30,7 +29,7 @@ module.exports = {
     async updateUser(req, res){
         try {
             const updateUser = User.update(
-                {name: req.body.name},
+                req.body,
                 {returning: true, 
                     where: {id: req.params.id}});
             const updatedUser = await updateUser.then(

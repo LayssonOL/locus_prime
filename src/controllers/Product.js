@@ -1,5 +1,4 @@
-const { Product } = require("../models");
-const path = require("path");
+const { Product } = require("../models/mysql");
 
 module.exports = {
   async insertProduct(req, res) {
@@ -80,22 +79,24 @@ module.exports = {
       return res.send(error);
     }
   },
-  async sellProduct(req, res) {
-    try {
-      const product = await Product.findOne({
-        where: { user_id: req.params.user_id, id: req.params.product_id }
-      });
-      const qnt = req.params.howMany;
-      const value = product.price * qnt;
-      const newStock = product.stock - qnt;
-      this.updateProduct(({
-          body: {stock: newStock},
-          params: {
-              id: req.params.product_id,
-              user_id: req.params.user_id
-          }
-        }, res));
-        // updateUser
-    } catch (error) {}
-  }
+//   async sellProduct(req, res) {
+//     try {
+//       const product = await Product.findOne({
+//         where: { user_id: req.params.user_id, id: req.params.product_id }
+//       });
+//       const qnt = req.params.howMany;
+//       const value = product.price * qnt;
+//       const newStock = product.stock - qnt;
+//       return {
+//         body: {stock: newStock},
+//         params: {
+//             id: req.params.product_id,
+//             user_id: req.params.user_id
+//         },
+//         value,
+//       };
+//     } catch (error) {
+//         return res.send(error);
+//     }
+//   }
 };

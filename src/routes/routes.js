@@ -1,7 +1,8 @@
 const express = require('express');
 const routes = express.Router();
-const UserController = require('../src/controllers/User.js');
-const ProductController = require('../src/controllers/Product');
+const UserController = require('../controllers/User');
+const ProductController = require('../controllers/Product');
+const SaleController = require('../controllers/Sale');
 
 // User's Table
 routes.get("/usersList", UserController.usersList);
@@ -18,6 +19,11 @@ routes.put('/updateProduct/:user_id.:product_id', ProductController.updateProduc
 routes.delete('/deleteProduct/:user_id.:product_id', ProductController.deleteProduct);
 routes.get('/getProductStock/:user_id.:product_id', ProductController.getProductStock);
 routes.get('/getSumProdStocks/:user_id', ProductController.getSumProdStocks);
-routes.get('/sellProduct/:user_id/product=:product_id/:howMany', UserController.updateUser ,ProductController.getSumProdStocks);
+// routes.get('/sellProduct/:user_id/product=:product_id/:howMany', UserController.updateUser ,ProductController.getSumProdStocks);
+
+routes.get('/salesList/:user_id', SaleController.salesList);
+routes.post('/insertSale/:user_id', SaleController.insertSale);
+
+routes.all('*', (req, res) => res.notFound());
 
 module.exports = routes;

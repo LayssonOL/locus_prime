@@ -4,7 +4,7 @@ const fs = require("fs");
 const path = require("path");
 const Sequelize = require("sequelize");
 const env = process.env.NODE_ENV || 'development';
-const config = require('../../config/database')[env];
+const config = require('../../../config/database')[env];
 const basename = path.basename(__filename);
 
 const sequelize = new Sequelize(config);
@@ -28,8 +28,8 @@ Object.keys(db).forEach(modelName => {
 });
 
 //Models/tables
-db.users = require('../models/user')(sequelize, Sequelize);
-db.products = require('../models/product')(sequelize, Sequelize);
+db.users = require('../mysql/user')(sequelize, Sequelize);
+db.products = require('../mysql/product')(sequelize, Sequelize);
 
 //Relations
 db.products.belongsTo(db.users);
