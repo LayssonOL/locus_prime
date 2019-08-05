@@ -21,12 +21,50 @@ module.exports = {
             return res.send(error);
         }
     },
-    async totalBill(){
+    async salesBillExtract(req, res){
         try {
-            const productsGrouped = await Sale.find().where('type');
+            // const userSales = await Sale.find(
+            //             {'user_id': req.params.user_id},
+            //             'product_id billed_value');
+            const userSales = await Sale.aggregate(
+                [
+                    {
+                        $match: {
+                            user_id: Number(req.params.user_id)
+                        }
+                    },
+                    {
+                        $group: {
+                            _id: {product_id: "$product_id"},
+                            totalBilled: {$sum: "$billed_value"}
+                        }
+                    }
+                ]
+            );
+            return res.json(userSales);
         } catch (error) {
-            
+            return res.send(error)
         }
     },
+    async salesQntExtractByProduct(req, res){
+        try {
+            const soldTotalQnt = await Sale.aggregate([
+                {
+                    $match: {
+                        user_id : Number(req.params.user_id)
+                    }
+                },
+                {
+                    $group: {
+                        _id: {product_id: "$product_id"},
+                        totalSold: {$sum: "$sold_qnt"}
+                    }
+                }
+            ])
+            return res.json(soldTotalQnt);
+        } catch (error) {
+            return res.send(error);
+        }
+    }
 };
 

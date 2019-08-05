@@ -62,7 +62,7 @@ module.exports = {
   async getProductStock(req, res) {
     try {
       const product = await Product.findOne({
-        where: { user_id: req.params.user_id, id: req.params.product_id }
+        where: { user_id: req.params.user_id, id: req.body.product_id }
       });
       return res.json(product.stock);
     } catch (error) {
@@ -79,24 +79,18 @@ module.exports = {
       return res.send(error);
     }
   },
-//   async sellProduct(req, res) {
-//     try {
-//       const product = await Product.findOne({
-//         where: { user_id: req.params.user_id, id: req.params.product_id }
-//       });
-//       const qnt = req.params.howMany;
-//       const value = product.price * qnt;
-//       const newStock = product.stock - qnt;
-//       return {
-//         body: {stock: newStock},
-//         params: {
-//             id: req.params.product_id,
-//             user_id: req.params.user_id
-//         },
-//         value,
-//       };
-//     } catch (error) {
-//         return res.send(error);
-//     }
-//   }
+  async getProductTypes(req, res){
+    try {
+      let select = [];
+      const productsByType = await Product.findAll({
+        where: { user_id: req.params.user_id},
+        groupAll: 'type',
+        attributes: ["type", "id"],
+      });
+      console.log(productsByType);
+      return res.json(productsByType);
+    } catch (error) {
+      return res.send(error);
+    }
+  },
 };

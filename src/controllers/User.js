@@ -51,5 +51,8 @@ module.exports = {
         } catch (error) {
             return res.send(error);
         }
+    },
+    async login(req, res){
+        
     }
 };
