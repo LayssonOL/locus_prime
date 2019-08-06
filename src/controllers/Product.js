@@ -5,7 +5,7 @@ module.exports = {
     try {
       const product = await Product.create({
         ...req.body,
-        user_id: req.params.user_id
+        user_id: req.session.user_id
       });
 
       return res.json(product);
@@ -15,44 +15,55 @@ module.exports = {
   },
   async productsList(req, res) {
     try {
-      const usersList = await Product.findAll({
-        where: { user_id: req.params.user_id }
+      const productsList = await Product.findAll({
+        where: { user_id: req.body.user_id }
       });
-      return res.json(usersList);
+      let select = [];
+      productsList.map(
+        (product) => {
+          select.push(product.dataValues);
+        }
+      )
+      // res.end();
+      return select;
     } catch (error) {
-      return res.send(error);
+      return error;
     }
   },
   async getProduct(req, res) {
     try {
       const product = await Product.findOne({
-        where: { user_id: req.params.user_id, id: req.params.product_id }
+        where: { user_id: req.body.user_id, id: req.body.product_id }
       });
-      return res.json(product);
+      
+      return product.dataValues;
     } catch (error) {
-      return res.send(error);
+      return error;
     }
   },
   async updateProduct(req, res) {
     try {
+      console.log(req.body)
       const updateUser = Product.update(req.body, {
         returning: true,
-        where: { user_id: req.params.user_id, id: req.params.product_id }
+        where: { user_id: req.body.user_id, id: req.body.product_id }
       });
       const updatedUser = await updateUser.then(
         ([rowsUpdate, [updatedUser]]) => {
-          return res.json(updatedUser);
+          return updatedUser;
         }
       );
       return updatedUser;
+      // return res.json(updatedUser);
     } catch (error) {
-      return res.send(error);
+      return error;
+      // return res.send(error);
     }
   },
   async deleteProduct(req, res) {
     try {
       const product = await Product.destroy({
-        where: { user_id: req.params.user_id, id: req.params.product_id }
+        where: { user_id: req.session.user_id, id: req.body.product_id }
       });
       return res.json(product);
     } catch (error) {
@@ -62,7 +73,7 @@ module.exports = {
   async getProductStock(req, res) {
     try {
       const product = await Product.findOne({
-        where: { user_id: req.params.user_id, id: req.body.product_id }
+        where: { user_id: req.session.user_id, id: req.body.product_id }
       });
       return res.json(product.stock);
     } catch (error) {
@@ -72,7 +83,7 @@ module.exports = {
   async getSumProdStocks(req, res) {
     try {
       const prodStocksSum = await Product.sum("stock", {
-        where: { user_id: req.params.user_id }
+        where: { user_id: req.session.user_id }
       });
       return res.json(prodStocksSum);
     } catch (error) {
@@ -81,16 +92,21 @@ module.exports = {
   },
   async getProductTypes(req, res){
     try {
-      let select = [];
       const productsByType = await Product.findAll({
-        where: { user_id: req.params.user_id},
-        groupAll: 'type',
-        attributes: ["type", "id"],
+        where: { user_id: req.body.user_id},
+        group: 'type',
+        attributes: ["type"],
       });
-      console.log(productsByType);
-      return res.json(productsByType);
+      let select = [];
+      productsByType.map(
+        (item) => {
+          select.push({type: item.type})
+        }
+      )
+      // res.end();
+      return select;
     } catch (error) {
-      return res.send(error);
+      return error;
     }
   },
 };

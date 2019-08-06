@@ -6,65 +6,84 @@ module.exports = {
   async salesTotalBill(req, res) {
     try {
       const userSales = await SaleController.salesBillExtract(req, res);
-      // const productTypes = await ProductController.
-      return res.json(userSales);
+      console.log(userSales);
+      const productTypes = await ProductController.getProductTypes(req, res);
+      console.log(productTypes);
+      const products = await ProductController.productsList(req, res);
+      console.log(products);
+      let result = [];
+
+      productTypes.map(item => {
+        result.push({
+          type: item.type,
+          products: [],
+          totalBill: 0
+        });
+      });
+      products.map(product => {
+        result.map(item => {
+          if (item.type == product.type) {
+            item.products = [...item.products, product.id];
+          }
+        });
+      });
+      console.log(result);
+      userSales.map(sale => {
+        result.map(item => {
+          item.products.map(id => {
+            if (id == sale._id.product_id) {
+              item.totalBill = item.totalBill + sale.totalBilled;
+            }
+          });
+        });
+      });
+
+      return res.json(result);
     } catch (error) {
       return res.send(error);
     }
   },
   async sellAProduct(req, res) {
-    console.log('Entrou')
     try {
       const product = await ProductController.getProduct(req, res);
-    //   console.log(product);
-      const restingStock = product.stock - req.body.qnt;
+      // console.log(product);
+      if (product.stock <= 0) {
+        res.send("Product without stock!");
+      }
+      const restingStock = product.stock - req.body.sold_qnt;
+      req.session.billedValue = req.body.sold_qnt * product.price;
+      // console.log(req.session);
       const prodUpdtd = await ProductController.updateProduct(
-        ({
-          params: {
-            user_id: req.params.user_id,
-            product_id: req.body.product_id
-          },
+        {
           body: {
+            ...req.body,
             stock: restingStock
           }
-        }),
+        },
         res
       );
-      let amount = req.body.qnt * product.price;
+      // console.log("CHEGOU");
       const sale = await SaleController.insertSale(
-        ({
-          params: {
-            user_id: Number(req.params.user_id)
-          },
+        {
           body: {
-            product_id: Number(req.body.product_id),
-            sold_qnt: Number(req.body.qnt),
-            billed_value: Number(amount)
+            ...req.body,
+            billed_value: Number(req.session.billedValue)
           }
-        }),
+        },
         res
       );
-      const user = await UserController.getUser(
-        ({
-          params: {
-            id: req.params.user_id
-          }
-        }),
-        res
-      );
-      amount += user.balance;
+      const user = await UserController.getUser(req, res);
+      // console.log(user);
+      req.session.billedValue += user.balance;
       const userUpdtd = await UserController.updateUser(
-        (req = {
-          params: {
-            id: req.params.user_id
-          },
-          body: {
-            balance: amount
+        {body:{
+          ...req.body,
+            balance: req.session.billedValue
           }
-        }),
+        },
         res
       );
-      return res.json(userUpdtd);
+      res.end();
     } catch (error) {
       return res.send(error);
     }

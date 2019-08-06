@@ -4,18 +4,17 @@ module.exports = {
     async insertSale(req, res){
         try {
             const {product_id, sold_qnt, billed_value} = req.body;
-            const user_id = req.params.user_id;
+            const user_id = req.body.user_id;
             const body = {product_id, sold_qnt, billed_value, user_id};
-            console.log(body);
             const sale = await Sale.create(body);
-            return res.json(sale);
+            return sale;
         } catch (error) {
-            return res.send(error);
+            return error;
         }
     },
     async salesList(req, res) {
         try {
-            const sales = await Sale.find({user_id: req.params.user_id});
+            const sales = await Sale.find({user_id: req.session.user_id});
             return res.json(sales);
         } catch (error) {
             return res.send(error);
@@ -30,7 +29,7 @@ module.exports = {
                 [
                     {
                         $match: {
-                            user_id: Number(req.params.user_id)
+                            user_id: Number(req.body.user_id)
                         }
                     },
                     {
@@ -41,9 +40,10 @@ module.exports = {
                     }
                 ]
             );
-            return res.json(userSales);
+            // res.end();
+            return userSales;
         } catch (error) {
-            return res.send(error)
+            return error
         }
     },
     async salesQntExtractByProduct(req, res){
@@ -51,7 +51,7 @@ module.exports = {
             const soldTotalQnt = await Sale.aggregate([
                 {
                     $match: {
-                        user_id : Number(req.params.user_id)
+                        user_id : Number(req.session.user_id)
                     }
                 },
                 {
@@ -65,6 +65,6 @@ module.exports = {
         } catch (error) {
             return res.send(error);
         }
-    }
+    },
 };
 
