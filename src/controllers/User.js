@@ -63,30 +63,32 @@ module.exports = {
         });
         if (user != null && user != {}) {
           req.session.loggedin = true;
-          req.session.name = user.name;
-          req.session.user_id = user.id;
-          res.redirect("/home");
+          req.session.user = user;
+          // res.redirect("/home");
+          res.json(req.session);
+          // res.edn();
         } else {
             const newBody = {...req.body, name: email.split('@')[0]};
             const newUser = await User.create(newBody);
             req.session.loggedin = true;
-            req.session.name = newUser.name;
-            req.session.user_id = newUser.id;
-            res.redirect('/home');
+            req.session.user = newUser;
+            // res.redirect('/home');
+            res.json(req.session);
+            // res.end();
         }
         // res.end();
     } catch (error) {
         return res.send(error);
       }
-    //   res.end();
     } else {
       res.send('Please a valid Email and Password!');
-      res.redirect("/auth");
+
+      // res.redirect("/auth");
     }
   },
   home(req, res) {
     if (req.session.loggedin) {
-      res.send("Welcome back, " + req.session.name + "!");
+      res.render('userHome',{id: req.session.user.id, name: req.session.user.name});
     } else {
       res.send("Please login to view this page!");
       res.redirect("/auth");

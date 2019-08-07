@@ -17,7 +17,7 @@ routes.put("/updateUser", UserController.updateUser);
 routes.delete("/deleteUser", UserController.deleteUser);
 
 // Product's Table
-routes.get("/productsList", ProductController.productsList);
+routes.get("/productsList/:user_id", ProductController.productsList);
 routes.post("/insertProduct", ProductController.insertProduct);
 routes.get("/getProduct", ProductController.getProduct);
 routes.put("/updateProduct", ProductController.updateProduct);

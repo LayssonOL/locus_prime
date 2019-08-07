@@ -1,0 +1,19 @@
+.element{
+    display: flex;
+    flex-flow: row;
+    flex-wrap: nowrap; 
+    justify-content: space-between;
+    border: 3px solid blue;
+    width: 95%;
+}
+
+.element div{
+    text-align: justify;
+    font-size: 90%;
+    padding: 20px;
+    text-align: center;
+    padding: 10 auto 30 auto;
+    width: 100%;
+    padding: 15px;
+    font-weight: bold;
+}

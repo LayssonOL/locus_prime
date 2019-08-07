@@ -1,0 +1,36 @@
+.container {
+    width: 100%;
+    margin: 0 auto;
+    font-family: Tahoma, Geneva, sans-serif;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+.container .header {
+    text-align: center;
+}
+
+.container .header p {
+    color: black;
+    font-size: 24px;
+    padding: 20px 0 20px 0;
+}
+
+.container .my-products {
+    display: flex;
+    flex-direction: column;
+}
+
+.container .my-products p{
+    text-align: center;
+    justify-items: center;
+    color: black;
+}
+
+.container .my-products ul{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: center;
+    list-style: none;
+}
