@@ -9,7 +9,7 @@ module.exports = {
       console.log(userSales);
       const productTypes = await ProductController.getProductTypes(req, res);
       console.log(productTypes);
-      const products = await ProductController.productsList(req, res);
+      const products = await ProductController.prodsList(req, res);
       console.log(products);
       let result = [];
 

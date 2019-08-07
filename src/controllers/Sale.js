@@ -14,7 +14,7 @@ module.exports = {
     },
     async salesList(req, res) {
         try {
-            const sales = await Sale.find({user_id: req.session.user_id});
+            const sales = await Sale.find({user_id: req.params.user_id});
             return res.json(sales);
         } catch (error) {
             return res.send(error);
@@ -51,7 +51,7 @@ module.exports = {
             const soldTotalQnt = await Sale.aggregate([
                 {
                     $match: {
-                        user_id : Number(req.session.user_id)
+                        user_id : Number(req.params.user_id)
                     }
                 },
                 {

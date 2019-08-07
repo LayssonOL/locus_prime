@@ -29,11 +29,11 @@ routes.post("/getProductsByType", ProductController.getProductTypes);
 routes.all("/sellAProduct", TransactionsController.sellAProduct);
 routes.all("/salesTotalBill", TransactionsController.salesTotalBill);
 
-routes.get("/salesList", SaleController.salesList);
+routes.get("/salesList/:user_id", SaleController.salesList);
 routes.post("/insertSale", SaleController.insertSale);
 routes.post("/salesBillExtract", SaleController.salesBillExtract);
 routes.get(
-  "/salesQntExtractByProduct",
+  "/salesQntExtractByProduct/:user_id",
   SaleController.salesQntExtractByProduct
 );
 

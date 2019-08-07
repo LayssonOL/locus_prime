@@ -35,6 +35,28 @@ module.exports = {
       res.json(error)
     }
   },
+  async prodsList(req, res) {
+    // console.log("Chegou")
+    // console.log(req.session);
+    try {
+      const productsList = await Product.findAll({
+        where: { user_id: req.body.user_id }
+      });
+      let select = [];
+      // console.log(productsList);
+      productsList.map(
+        (product) => {
+          select.push(product.dataValues);
+        }
+      )
+      // console.log(select);
+      // res.json(select);
+      return select;
+    } catch (error) {
+      return error;
+      // res.json(error)
+    }
+  },
   async getProduct(req, res) {
     try {
       const product = await Product.findOne({
